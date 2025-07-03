@@ -1,11 +1,16 @@
-// PARTNER NAME:
-// PARTNER NAME:
-// CS111 SECTION #:
-// DATE:
+// PROGRAMMER NAME: Isabella Watson
+// PARTNER NAME: None
+// CS111 SECTION #: 1602
+// DATE: 7/3/2025
 
 public class Main
 {
-
+	public static final int minOrderOption = 1;
+	public static final int maxOrderOption = 4;
+	public static final int minNumTacos = 1;
+	public static final int maxNumTacos = 50;
+	public static final int startingFunds = 20;
+	public static final double startingBudget = 15;
 	/**
 	 * ALGORITHM:
 	 * - Add total funds to taco stand
@@ -21,8 +26,8 @@ public class Main
 		TacoStand.initialize();
 
 		//INPUT + CALCULATION + OUTPUT SECTION
-		TacoStand.addTotalFunds(20);
-		TacoStand.orderSupplies(15);
+		TacoStand.addTotalFunds(startingFunds);
+		TacoStand.orderSupplies(startingBudget);
 
 		System.out.println("OPENING UP THE STAND...");
 		System.out.println( TacoStand.getStatus() +"\n\n");
@@ -63,12 +68,21 @@ public class Main
 
 		//INPUT SECTION
 		TacoStand.printMenu();
-		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
-		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
+		option = UtilityBelt.readInt("Enter choice> ", minOrderOption, maxOrderOption);
+		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", minNumTacos, maxNumTacos);
+
+		//CHECK if we have the number of tacos available
+		if (TacoStand.areTacosAvailable(option, numTacosOrdered) == true){
+			TacoStand.updateTotalFunds(option, numTacosOrdered);
+			Main.printConfirmation(numTacosOrdered);
+		}
+		else {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
+		}
+		TacoStand.getStatus();
 
 		//CALCULATION + OUTPUT SECTION
-		TacoStand.updateTotalFunds(option, numTacosOrdered);
-		Main.printConfirmation(numTacosOrdered);
+
 	}
 
 	/**
@@ -78,7 +92,15 @@ public class Main
 	 */
 	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
 	{
+		String tacoSymbol = "🌮";
 		System.out.println("Here you go, buen provecho!");
-		System.out.println("🌮");
+
+		//implemented a for loop to automate printing the tacos (i didnt use chat gpt i already knew about for loops from previous programming experience)
+		for (int i = 0; i < numTacos; i++)
+		{
+			System.out.print(tacoSymbol);
+		}
+		System.out.println();
+		System.out.println();
 	}
 }

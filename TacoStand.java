@@ -2,6 +2,11 @@ public class TacoStand
 {
     /* CONSTANT VARIABLES */
 	public static final String BAR = "----------------------------------------";
+	//added constant for cost per taco:
+	public static final double tacoCost = .75;
+
+	//added constant for individual taco price:
+	private static double asadaCost = 2.5, polloCost = 1.75, lenguaCost = 3.0, ultimateCost = 18.0;
 
 	/* STATIC VARIABLES */
 	private static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
@@ -22,10 +27,10 @@ public class TacoStand
 	public static void printMenu()
 	{
 		System.out.println("Menu options:\n" + TacoStand.BAR);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", 2.5);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", 1.75);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", 3.0);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", 18.0);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", asadaCost);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)",polloCost);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", lenguaCost);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", ultimateCost);
 		System.out.println(TacoStand.BAR);
 	}
 	
@@ -71,8 +76,14 @@ public class TacoStand
 	 */
 	public static boolean orderSupplies(double budget)
 	{
+		//added boolean variable to assign return statement value
+		boolean hasEnoughFunds = false;
+
+		//added conditional statement to only update variables if we have the funds
+		if (budget <= totalFunds){
+
 		//tacos cost 75 cents each in supplies, keeping it simple
-	    int tacosEach = (int)(Math.round(budget / 0.75 / 4));
+		int tacosEach = (int)(Math.round(budget / 0.75 / 4));
 
 	    TacoStand.totalFunds -= budget;
 
@@ -81,7 +92,10 @@ public class TacoStand
 	    TacoStand.numLengua += tacosEach;
 	    TacoStand.numUltimate += tacosEach;
 
-		return true;  //TODO: this is stubbed, replace this line with your actual code!
+		hasEnoughFunds = true;  //TODO: this is stubbed, replace this line with your actual code!
+		}
+
+		return hasEnoughFunds;
 	}
 
 	/**
@@ -93,7 +107,29 @@ public class TacoStand
 	 */
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
-		//TODO: this is stubbed, replace this line with your actual code!
+		double tacoPrice;
+		switch (tacoOption){
+			case 1:
+				TacoStand.numAsada -= numTacos;
+				tacoPrice = numTacos * asadaCost;
+				TacoStand.totalFunds += tacoPrice;
+				break;
+			case 2:
+				TacoStand.numPollo -= numTacos;
+				tacoPrice = numTacos * polloCost;
+				TacoStand.totalFunds += tacoPrice;
+				break;
+			case 3:
+				TacoStand.numLengua -= numTacos;
+				tacoPrice = numTacos * lenguaCost;
+				TacoStand.totalFunds += tacoPrice;
+				break;
+			case 4:
+				TacoStand.numUltimate -= numTacos;
+				tacoPrice = numTacos * ultimateCost;
+				TacoStand.totalFunds += tacoPrice;
+				break;
+		}
 	}
 	
 	
@@ -107,6 +143,33 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		return false; //TODO: this is stubbed, replace this line with your actual code!
+		boolean tacosAvailable = false; //TODO: this is stubbed, replace this line with your actual code!
+		switch (tacoOption){
+			case 1:
+				if (TacoStand.numAsada >= numTacos)
+				{
+					tacosAvailable = true;
+				}
+				break;
+			case 2:
+				if (TacoStand.numPollo >= numTacos)
+				{
+					tacosAvailable = true;
+				}
+				break;
+			case 3:
+				if (TacoStand.numLengua >= numTacos)
+				{
+					tacosAvailable = true;
+				}
+				break;
+			case 4:
+				if (TacoStand.numUltimate >= numTacos)
+				{
+					tacosAvailable = true;
+				}
+				break;
+		}
+		return tacosAvailable;
 	}
 }
